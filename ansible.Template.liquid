@@ -1,0 +1,29 @@
+{% assign plays = taskResponse.ansibleOutput.plays %}
+{%- for play in plays %}
+{%- for task in play.tasks %}
+{%- for host in task.hosts %}
+Name:                {{ task.task.name }}<br> 
+Action:              {{ host[1].action }}<br>
+Changed:             {%- if host[1].changed == true %}             Yes{% else %}             No{%- endif %}<br>
+{%- if host[1].msg %}
+    --> MSG exists:<br> 
+                     {{ host[1].msg }}<br>
+{%- endif %}
+{%- if host[1].ansible_facts %}
+    --> Facts exist:<br> 
+      Hostname:      {{ host[1].ansible_facts.ansible_net_hostname }}<br>
+      Serial Number: {{ host[1].ansible_facts.ansible_net_serialnum }}<br>
+      IPv4 Addresses:<br> {%- for ip in host[1].ansible_facts.ansible_net_all_ipv4_addresses %}
+                     {{ ip }}<br>
+      {%- endfor %}
+      IPv6 Addresses:<br> {%- for ip in host[1].ansible_facts.ansible_net_all_ipv6_addresses %}
+                     {{ ip }}<br>
+      {%- endfor %}
+      Neighbors:<br> {%- for ip in host[1].ansible_facts.ansible_net_neighbors %}
+                     {{ ip[0] }} : {%- for h in ip[1] %} {{ h.host }} {%- endfor %}<br>
+      {%- endfor %}
+{%- endif %}
+<hr>
+{%- endfor %}
+{%- endfor %}
+{%- endfor %}

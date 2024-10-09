@@ -1,0 +1,42 @@
+<h1>CLI State Policy for {{targetResponse.target}}</h1>
+{%- for stateCheck in targetResponse.assessedNodeState -%}
+{%- assign policyName = stateCheck.policy -%}
+<hr style="text-align:left;margin-left:0;width:80%;height:2px;border-width:0;color:blue;background-color:gray">
+<h2>Policy Name: {{policyName | upcase }}</h2>
+<h2>Status:
+{% if stateCheck.status == "OK" %}
+    <font bgcolor=black color=green>{{stateCheck.status}}</font>
+{% else %}
+    <font bgcolor=black color=red>{{stateCheck.status}}</font>
+{% endif %}
+</h2>
+{%- for key in stateCheck.result.state %}
+<a href=#{{-key[0] | split: "[object Object]" | upcase -}}>{{-key[0] | split: "[object Object]" | upcase -}}</a> 
+{%- endfor -%}&nbsp;<a href=#summary>SUMMARY</a><br>
+<hr style="text-align:left;margin-left:0;width:80%;height:2px;border-width:0;color:blue;background-color:gray">
+
+<h3>State Items:</h3>
+{%- for key in stateCheck.result.state -%}
+<pre>
+{{- key[0] | split: "[object Object]" | upcase -}}
+</pre>
+{%- endfor -%}
+
+<h3>State Data:</h3>
+{%- for key in stateCheck.result.state -%}
+<a name={{-key[0] | split: "[object Object]" | upcase -}}></a>
+<pre>
+{{- key | json: 2 | replace: '"', "" | remove: ": {" | remove: "{" | remove: "}," | remove: "}" | remove: "[" | remove: "]" | remove: "," | upcase -}}
+</pre>
+{%- endfor -%}
+
+<hr style="text-align:left;margin-left:0;width:66%;height:1px;border-width:0;color:green;background-color:gray">
+<h3>Summary Counts:</h3>
+<a name=summary></a>
+{%- for key in stateCheck.result.summary -%}
+<pre>
+{{- key | json: 2 | replace: '"', "" | remove: ": {" | remove: "{" | remove: "}," | remove: "}" | remove: "[" | remove: "]" | remove: "," -}}
+</pre>
+{%- endfor -%}
+
+{%- endfor -%}

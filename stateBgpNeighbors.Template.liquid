@@ -1,0 +1,22 @@
+{%- liquid
+    assign assessedNodeState = targetResponse.assessedNodeState
+    assign bgpNeighbors = assessedNodeState[0].result.state.bgpNeighbors
+    assign peers = bgpNeighbors.peers
+    assign peersUp = bgpNeighbors.peers_up
+    assign peersDown = bgpNeighbors.peers_down
+    assign peersUpCount = 0
+    assign peersDownCount = 0
+    
+    for ip in peersUp
+      assign peersUpCount = peersUpCount | plus: 1
+    endfor
+    
+    for ip in peersDown
+      assign peersDownCount = peersDownCount | plus: 1
+    endfor
+    
+    assign totalPeersCount = peersUpCount | plus: peersDownCount
+  %}
+  Total BGP Neighbors: {{ totalPeersCount }}
+  - BGP Peers Up: {{ peersUpCount }}
+  - BGP Peers Down: {{ peersDownCount }}

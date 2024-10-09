@@ -1,0 +1,5 @@
+{%- assign target_timestamp = device.discoveredOn | divided_by: 1000 -%}
+{% assign current_timestamp = "now" | date: "%s" -%}
+{% assign one_day_ago_timestamp = current_timestamp | minus: 86400 -%}
+{% assign is_within_24_hours = target_timestamp > one_day_ago_timestamp -%}
+{{ is_within_24_hours }}

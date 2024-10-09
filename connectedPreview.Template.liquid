@@ -1,0 +1,16 @@
+{%- assign features = targetResponse.processedResults %}
+{%- assign deviceType = device.detectedTypeName %}
+{%- for feature in features %}
+  {%- for key in feature %}
+    {%- assign featureName = key.first %}
+    {%- assign featureObj = feature[key.first] %}
+      {%- if featureObj.featureType != deviceType %}
+        <span style="font-weight:bold;">Feature Name:</span> {{ featureName }}<br>
+        <span style="font-weight:bold;">Feature Type:</span> {{ featureObj.featureType }}<br>
+        {%- for cmd in featureObj.cliCommands %}
+          <span style="font-weight:bold;">Command #{{forloop.index}}</span>: {{ cmd | strip }}<br>
+        {%- endfor %}
+        !<br>
+      {%- endif %}
+  {%- endfor %}
+{%- endfor %}

@@ -1,0 +1,7 @@
+{%- for device in devices %}
+   {%- for s in sysId %}
+        {% if s == device.id %}
+            {{ s[1] }}
+        {% endif %}
+   {%- endfor %}
+{%- endfor %}

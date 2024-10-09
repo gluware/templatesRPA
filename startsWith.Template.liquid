@@ -1,0 +1,9 @@
+{%- assign device = device.name %}
+{%- assign starts_with_ra = "ra" %}
+{%- assign raArray = device | split:starts_with_ra %}
+
+{% if raArray[0] == blank %}
+  The string {{ device }} does start with {{ starts_with_ra }}.
+{% else %}
+  The string {{ device }} does NOT start with {{ starts_with_ra }}.
+{% endif %}

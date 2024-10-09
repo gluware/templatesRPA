@@ -1,0 +1,24 @@
+{%- assign rules = targetResponse.ruleResults %}
+{%- for rule_name in rules %}
+{%- assign rule_details = rule_name[1] %}
+{%- for key in rule_details %}
+{%- assign status = key[1].evalResults.passed %}
+{%- assign context = key[0] %}
+{%- if status == "failed" %}
+{%- assign status = "Failed" %}
+{%- else %}
+{%- assign status = "Passed" %}
+{%- endif %}
+{%- if status == "Passed" %}
+<span style="font-weight:bold;">#### Rule :</span> {{ rule_name[0] }} | 
+{%- if context != "" or context != blank or context != "note" %} {{ context }} | 
+{%- endif %}
+<span style="font-weight:bold;"><font color=green>Passed</font></span><br>
+{%- else %}
+<span style="font-weight:bold;">#### Rule :</span> {{ rule_name[0] }} |
+{%- if context != "" or context != blank or context != "note" %} {{ context }} | 
+{%- endif %}
+<span style="font-weight:bold;"><font color=red>Failed</font></span><br>
+{%- endif %}
+{%- endfor %}
+{%- endfor %}

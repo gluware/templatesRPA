@@ -1,0 +1,30 @@
+{%- for deviceID in targetResponse %}
+{%- assign count = 0 %}
+{%- for rule in targetResponse[deviceID[0]].ruleResults %}
+{%- for ruleconfig in targetResponse[deviceID[0]].ruleResults[rule[0]] %}
+{%- if targetResponse[deviceID[0]].ruleResults[rule[0]][ruleconfig[0]].evalResults.passed==true and targetResponse[deviceID[0]].ruleResults[rule[0]][ruleconfig[0]].severity=="INFO" %}
+{%- assign AuditInfoSuccess = true %}
+{%- assign count = count | plus: 1 %}
+{%- else %}
+{%- assign AuditInfoSuccess = false %}
+{%- endif %}
+{%- endfor %}
+{%- endfor %}
+{{- count -}} // Or {{- count }}
+{%- endfor %}
+
+//
+
+{%- assign count = 0 %}
+{%- for rule in targetResponse[device.id].ruleResults %}
+{%- for ruleconfig in targetResponse[device.id].ruleResults[rule[0]] %}
+{%- if targetResponse[device.id].ruleResults[rule[0]][ruleconfig[0]].evalResults.passed==true and targetResponse[device.id].ruleResults[rule[0]][ruleconfig[0]].severity=="INFO" %}
+{%- assign AuditInfoSuccess = true %}
+{%- assign count = count | plus: 1 %}
+{%- else %}
+{%- assign AuditInfoSuccess = false %}
+{%- endif %}
+{%- endfor %}
+{%- endfor %}
+{{- count }}
+ // Or {{- count }}
