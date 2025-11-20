@@ -4,7 +4,7 @@
 {%- for key in rule_details %}
 {%- assign status = key[1].evalResults.passed %}
 {%- assign context = key[0] %}
-{%- if status == "failed" %}
+{%- if status == false %}
 {%- assign status = "Failed" %}
 {%- else %}
 {%- assign status = "Passed" %}
